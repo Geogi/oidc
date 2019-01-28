@@ -5,14 +5,14 @@ v1_bp = Blueprint('v1', __name__)
 
 @v1_bp.route('/public')
 def public():
-    return ''
+    return '', 204
 
 
 @v1_bp.route('/authenticated')
 def authenticated():
-    return ''
+    return '', 204
 
 
 @v1_bp.route('/authorized')
 def authorized():
-    return ''
+    return '', 204

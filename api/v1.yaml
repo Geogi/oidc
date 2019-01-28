@@ -7,7 +7,7 @@ info:
 
 servers:
   - description: Local dev
-    url: http://localhost:8012/
+    url: http://localhost:8081/v1/
 
 security:
   - openId:
@@ -20,21 +20,21 @@ paths:
       description: This operation can be used without authenticating by overriding the default security.
       security: []
       responses:
-        '200':
+        '204':
           description: OK
   /authenticated:
     get:
       summary: Authenticated Ping
       description: This operation can be used by all authenticated users, as per the default policy.
       responses:
-        '200':
+        '204':
           description: OK
   /authorized:
     get:
       summary: Authorized Ping
       description: This operation can only be used by authenticated users with a specific role.
       responses:
-        '200':
+        '204':
           description: OK
 
 components:

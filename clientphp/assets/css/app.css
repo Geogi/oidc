@@ -1,1 +1,10 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+
+body {
+    background-color: lightgray;
+}
+
+.content {
+    background-color: white;
+    padding-bottom: 15px;
+}

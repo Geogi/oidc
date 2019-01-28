@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>TODO</h1>
+    <h1>Operations</h1>
+    <h2>Public</h2>
+    {{ form(op_public_form) }}
+    {{ op_public_res ?? '' }}
+    <h2>Authenticated</h2>
+    {{ form(op_authenticated_form) }}
+    {{ op_authenticated_res ?? '' }}
+    <h2>Authorized</h2>
+    {{ form(op_authorized_form) }}
+    {{ op_authorized_res ?? '' }}
 {% endblock %}
