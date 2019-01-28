@@ -1,0 +1,44 @@
+openapi: 3.0.0
+
+info:
+  version: "1.0.0"
+  title: OpenID Connect Test API
+  description: A Sample API for testing rights and roles against an authentication server.
+
+servers:
+  - description: Local dev
+    url: http://localhost:8012/
+
+security:
+  - openId:
+      - confidential_client
+
+paths:
+  /public:
+    get:
+      summary: Public Ping
+      description: This operation can be used without authenticating by overriding the default security.
+      security: []
+      responses:
+        '200':
+          description: OK
+  /authenticated:
+    get:
+      summary: Authenticated Ping
+      description: This operation can be used by all authenticated users, as per the default policy.
+      responses:
+        '200':
+          description: OK
+  /authorized:
+    get:
+      summary: Authorized Ping
+      description: This operation can only be used by authenticated users with a specific role.
+      responses:
+        '200':
+          description: OK
+
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: http://localhost:8080/realms/oidc/.well-known/openid-configuration
