@@ -89,4 +89,13 @@ class IndexController extends AbstractController
             ])
             ;
     }
+
+    /**
+     * @Route("/check", name="check")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function check()
+    {
+        return $this->redirectToRoute('index');
+    }
 }
