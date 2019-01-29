@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    <h1>Login information</h1>
+    {% if app.user %}
+        <div>Logged in as app.user</div>
+        <div><a href="#" class="btn btn-primary">Logout (todo)</a></div>
+    {% else %}
+        <div>Not logged in</div>
+        <div><a href="{{ path('login') }}" class="btn btn-primary">Login</a></div>
+    {% endif %}
     <h1>Operations</h1>
     <h2>Public</h2>
     {{ form(op_public_form) }}

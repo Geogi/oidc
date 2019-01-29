@@ -7,6 +7,7 @@ use App\Form\OpAuthorizedType;
 use App\Form\OpPublicType;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,5 +73,20 @@ class IndexController extends AbstractController
             'op_authenticated_res' => $opAuthenticatedRes,
             'op_authorized_res' => $opAuthorizedRes,
         ]);
+    }
+
+    /**
+     * @Route("/login", name="login")
+     * @param ClientRegistry $clientRegistry
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function connect(ClientRegistry $clientRegistry)
+    {
+        return $clientRegistry
+            ->getClient('oidc')
+            ->redirect([
+                'email'
+            ])
+            ;
     }
 }
