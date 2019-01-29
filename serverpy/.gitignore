@@ -1,1 +1,3 @@
 /venv/
+/client_secrets.json
+/config_private.json

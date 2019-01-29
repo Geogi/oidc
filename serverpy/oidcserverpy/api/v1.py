@@ -11,12 +11,12 @@ def public():
 
 
 @v1_bp.route('/authenticated')
-@oidc.require_login
+@oidc.accept_token(True)
 def authenticated():
     return '', 204
 
 
 @v1_bp.route('/authorized')
-@oidc.require_login
+@oidc.accept_token(True)
 def authorized():
     return '', 204
