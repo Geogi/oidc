@@ -12,6 +12,9 @@ security:
             guard:
                 authenticators:
                     - App\Security\OidcAuthenticator
+            logout:
+                path: logout
+                success_handler: App\Security\LogoutKeycloak
 
             # activate different ways to authenticate
 

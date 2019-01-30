@@ -85,16 +85,24 @@ class IndexController extends AbstractController
         return $clientRegistry
             ->getClient('oidc')
             ->redirect([
-                'email'
-            ])
-            ;
+                'openid'
+            ]);
     }
 
     /**
-     * @Route("/check", name="check")
+     * @Route("/login_check", name="login_check")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function check()
+    public function loginCheck()
+    {
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/logout_check", name="logout_check")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function logoutCheck()
     {
         return $this->redirectToRoute('index');
     }

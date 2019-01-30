@@ -2,8 +2,8 @@ knpu_oauth2_client:
     clients:
         oidc:
             type: keycloak
-            auth_server_url: http://localhost:8080/auth
-            realm: oidc
+            auth_server_url: '%env(KEYCLOAK_URL)%'
+            realm: '%env(KEYCLOAK_REALM)%'
             client_id: '%env(CLIENT_ID)%'
             client_secret: '%env(CLIENT_SECRET)%'
-            redirect_route: check
+            redirect_route: login_check
