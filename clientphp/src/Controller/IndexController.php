@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Form\OpAuthenticatedType;
 use App\Form\OpAuthorizedType;
 use App\Form\OpPublicType;
-use GuzzleHttp\Client;
+use App\Security\ApiClient;
 use GuzzleHttp\Exception\GuzzleException;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,29 +14,26 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-    const SERVER_ENDPOINT = 'http://localhost:8081/v1';
-
     /**
      * @Route("/", name="index")
      * @param Request $request
+     * @param ApiClient $client
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, ApiClient $client)
     {
         $opPublicForm = $this->createForm(OpPublicType::class);
         $opAuthenticatedForm = $this->createForm(OpAuthenticatedType::class);
         $opAuthorizedForm = $this->createForm(OpAuthorizedType::class);
 
-        $client = null;
         $opPublicRes = null;
         $opAuthenticatedRes = null;
         $opAuthorizedRes = null;
 
         $opPublicForm->handleRequest($request);
         if ($opPublicForm->isSubmitted() && $opPublicForm->isValid()) {
-            $client = $client ?? new Client();
             try {
-                $response = $client->request('GET', self::SERVER_ENDPOINT . '/public');
+                $response = $client->get('/public');
                 $opPublicRes = $response->getStatusCode();
             } catch (GuzzleException $e) {
                 $opPublicRes = $e->getMessage();
@@ -45,9 +42,8 @@ class IndexController extends AbstractController
 
         $opAuthenticatedForm->handleRequest($request);
         if ($opAuthenticatedForm->isSubmitted() && $opAuthenticatedForm->isValid()) {
-            $client = $client ?? new Client();
             try {
-                $response = $client->request('GET', self::SERVER_ENDPOINT . '/authenticated');
+                $response = $client->get('/authenticated');
                 $opAuthenticatedRes = $response->getStatusCode();
             } catch (GuzzleException $e) {
                 $opAuthenticatedRes = $e->getMessage();
@@ -56,9 +52,8 @@ class IndexController extends AbstractController
 
         $opAuthorizedForm->handleRequest($request);
         if ($opAuthorizedForm->isSubmitted() && $opAuthorizedForm->isValid()) {
-            $client = $client ?? new Client();
             try {
-                $response = $client->request('GET', self::SERVER_ENDPOINT . '/authorized');
+                $response = $client->get('/authorized');
                 $opAuthorizedRes = $response->getStatusCode();
             } catch (GuzzleException $e) {
                 $opAuthorizedRes = $e->getMessage();
