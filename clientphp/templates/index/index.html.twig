@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Login information</h1>
     {% if app.user %}
-        <div>Logged in as {{ app.user.username }}</div>
+        <div>Logged in as {{ app.user.realUsername }}</div>
         <div><a href="{{ path('logout') }}" class="btn btn-primary">Logout</a></div>
     {% else %}
         <div>Not logged in</div>

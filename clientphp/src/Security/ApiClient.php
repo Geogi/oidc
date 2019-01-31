@@ -37,10 +37,11 @@ class ApiClient
     public function get(string $url)
     {
         $tokenHeader = [];
+        /** @var User $user */
         if ($user = $this->security->getUser()) {
             $tokenHeader = [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $user->getUsername(),
+                    'Authorization' => 'Bearer ' . $user->getToken(),
                 ],
             ];
         }

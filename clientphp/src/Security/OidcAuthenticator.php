@@ -43,7 +43,7 @@ class OidcAuthenticator extends SocialAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        return $userProvider->loadUserByUsername($this->getOidcClient()->fetchUserFromToken($credentials)->getId());
+        return $userProvider->loadUserByUsername($credentials);
     }
 
     private function getOidcClient()
