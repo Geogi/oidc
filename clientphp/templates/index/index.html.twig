@@ -32,7 +32,7 @@
             {% endif %}
         </div>
     </div>
-    <h2>Authorized <i class="fas fa-{{ is_granted('ROLE_SPECIAL') ? 'un' : '' }}lock"></i></h2>
+    <h2>Authorized <i class="fas fa-{{ is_granted('ROLE_AUTHORIZED') ? 'un' : '' }}lock"></i></h2>
     <div class="row">
         <div class="col-2">{{ form(op_authorized_form) }}</div>
         <div class="col-10">

@@ -39,9 +39,15 @@ class UserProvider implements UserProviderInterface
                 sprintf('Invalid username-like token class "%s"', get_class($username))
             );
         }
-        $user->setToken($username);
         $resourceOwner = $this->keycloak->getResourceOwner($username);
-        $user->setRealUsername($resourceOwner->toArray()['preferred_username']);
+        $userInfo = $resourceOwner->toArray();
+        $user->setToken($username);
+        $user->setRealUsername($userInfo['preferred_username']);
+        if (isset($userInfo['roles'])) {
+            $user->setRoles(array_map(function ($role) {
+                return "ROLE_" . mb_strtoupper($role);
+            }, $userInfo['roles']));
+        }
         return $user;
     }
 
