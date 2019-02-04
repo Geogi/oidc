@@ -2,8 +2,10 @@
 
 namespace App\Security;
 
+use League\OAuth2\Client\Token\AccessToken;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -32,9 +34,14 @@ class UserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $user = new User();
+        if (!$username instanceof AccessToken) {
+            throw new UsernameNotFoundException(
+                sprintf('Invalid username-like token class "%s"', get_class($username))
+            );
+        }
         $user->setToken($username);
         $resourceOwner = $this->keycloak->getResourceOwner($username);
-        $user->setRealUsername($resourceOwner->getName());
+        $user->setRealUsername($resourceOwner->toArray()['preferred_username']);
         return $user;
     }
 

@@ -2,21 +2,44 @@
 
 {% block content %}
     <h1>Login information</h1>
-    {% if app.user %}
-        <div>Logged in as {{ app.user.realUsername }}</div>
-        <div><a href="{{ path('logout') }}" class="btn btn-primary">Logout</a></div>
-    {% else %}
-        <div>Not logged in</div>
-        <div><a href="{{ path('login') }}" class="btn btn-primary">Login</a></div>
-    {% endif %}
+    <div class="row">
+        {% if app.user %}
+            <div class="col-2"><a href="{{ path('logout') }}" class="btn btn-primary">Logout</a></div>
+            <div class="col-10">Logged in as {{ app.user.realUsername }}</div>
+        {% else %}
+            <div class="col-2"><a href="{{ path('login') }}" class="btn btn-primary">Login</a></div>
+            <div class="col-10">Not logged in</div>
+        {% endif %}
+    </div>
     <h1>Operations</h1>
-    <h2>Public</h2>
-    {{ form(op_public_form) }}
-    {{ op_public_res ?? '' }}
-    <h2>Authenticated</h2>
-    {{ form(op_authenticated_form) }}
-    {{ op_authenticated_res ?? '' }}
-    <h2>Authorized</h2>
-    {{ form(op_authorized_form) }}
-    {{ op_authorized_res ?? '' }}
+    <h2>Public <i class="fas fa-unlock"></i></h2>
+    <div class="row">
+        <div class="col-2">{{ form(op_public_form) }}</div>
+        <div class="col-10">
+            {% if op_public_res %}
+                <i class="fas fa-{{ op_public_res == '204' ? 'check-circle' : 'exclamation-triangle' }}"></i>
+                {{ op_public_res }}
+            {% endif %}
+        </div>
+    </div>
+    <h2>Authenticated <i class="fas fa-{{ is_granted('ROLE_USER') ? 'un' : '' }}lock"></i></h2>
+    <div class="row">
+        <div class="col-2">{{ form(op_authenticated_form) }}</div>
+        <div class="col-10">
+            {% if op_authenticated_res %}
+                <i class="fas fa-{{ op_authenticated_res == '204' ? 'check-circle' : 'exclamation-triangle' }}"></i>
+                {{ op_authenticated_res }}
+            {% endif %}
+        </div>
+    </div>
+    <h2>Authorized <i class="fas fa-{{ is_granted('ROLE_SPECIAL') ? 'un' : '' }}lock"></i></h2>
+    <div class="row">
+        <div class="col-2">{{ form(op_authorized_form) }}</div>
+        <div class="col-10">
+            {% if op_authorized_res %}
+                <i class="fas fa-{{ op_authorized_res == '204' ? 'check-circle' : 'exclamation-triangle' }}"></i>
+                {{ op_authorized_res }}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
