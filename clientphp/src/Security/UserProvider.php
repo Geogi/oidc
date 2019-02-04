@@ -33,20 +33,26 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $user = new User();
         if (!$username instanceof AccessToken) {
             throw new UsernameNotFoundException(
                 sprintf('Invalid username-like token class "%s"', get_class($username))
             );
         }
-        $resourceOwner = $this->keycloak->getResourceOwner($username);
-        $userInfo = $resourceOwner->toArray();
-        $user->setToken($username);
-        $user->setRealUsername($userInfo['preferred_username']);
-        if (isset($userInfo['roles'])) {
+        $user = new User();
+        // $username is an Access Token!
+        $token = $username;
+        $user->setToken($token);
+        $tokenData = json_decode(base64_decode(explode('.', $username->getToken())[1]), true);
+        if (isset($tokenData['preferred_username'])) {
+            $user->setDisplayName($tokenData['preferred_username']);
+        } else {
+            $user->setDisplayName(substr((string)$token, 0, 24));
+        }
+        $apiRoles = getenv('API_ROLES');
+        if (isset($tokenData['resource_access'][$apiRoles]['roles'])) {
             $user->setRoles(array_map(function ($role) {
                 return "ROLE_" . mb_strtoupper($role);
-            }, $userInfo['roles']));
+            }, $tokenData['resource_access'][$apiRoles]['roles']));
         }
         return $user;
     }

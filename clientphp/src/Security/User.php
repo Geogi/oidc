@@ -9,7 +9,7 @@ class User implements UserInterface
 {
     private $token;
 
-    private $realUsername;
+    private $displayName;
 
     private $roles = [];
 
@@ -54,18 +54,18 @@ class User implements UserInterface
     /**
      * @return mixed
      */
-    public function getRealUsername()
+    public function getDisplayName()
     {
-        return $this->realUsername;
+        return $this->displayName;
     }
 
     /**
-     * @param mixed $realUsername
+     * @param mixed $displayName
      * @return User
      */
-    public function setRealUsername($realUsername): self
+    public function setDisplayName($displayName): self
     {
-        $this->realUsername = $realUsername;
+        $this->displayName = $displayName;
         return $this;
     }
 
