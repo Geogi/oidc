@@ -17,6 +17,6 @@ def authenticated():
 
 
 @v1_bp.route('/authorized')
-@oidc.accept_token(True)
+@oidc.require_keycloak_role('api', 'authorized')
 def authorized():
     return '', 204

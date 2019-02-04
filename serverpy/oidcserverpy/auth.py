@@ -1,3 +1,3 @@
-from flask_oidc import OpenIDConnect
+from oidcserverpy.oidc_plus import OidcPlus
 
-oidc = OpenIDConnect()
+oidc = OidcPlus()
